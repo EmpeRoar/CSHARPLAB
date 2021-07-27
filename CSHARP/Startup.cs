@@ -1,7 +1,9 @@
+using CSHARP.DB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,10 +29,13 @@ namespace CSHARP
         public void ConfigureServices(IServiceCollection services)
         {
 
+            var connection = Configuration.GetConnectionString("DefaultConneciton");
+            services.AddDbContext<AppDbContext>(o => o.UseSqlServer(connection));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CSHARP", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expressioner", Version = "v1" });
             });
         }
 
